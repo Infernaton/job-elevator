@@ -17,7 +17,7 @@ public class ButtonContainer : MonoBehaviour
         {
             var b = Instantiate(m_ButtonPrefab, transform); // m_ButtonsList[i];
             float y = (gm.StartYPos + m_FloorStartOffset) - i * (gm.FloorSize - m_FloorSizeReducer);
-            b.Image.rectTransform.anchoredPosition = new Vector3(0, y, 0);
+            b.SetUIPosition(new Vector3(0, y, 0));
             b.SetSpriteNumber(gm.AllFloors[i].ButtonSprite);
             _buttonsList.Add(b);
         }

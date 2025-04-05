@@ -10,11 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float m_MovementCancelOffset;
     [SerializeField] float m_MovementReducer;
 
-    [SerializeField] Image m_ElevatorImage;
+    [SerializeField] ElevatorButtonDisplay m_ElevatorUI;
     private float _movement;
     private float _lastMovement;
 
+    #region Door Handler
     private bool _isDoorsOpen = true;
+
+    public bool GetDoorState() => _isDoorsOpen;
+    #endregion
 
     #region Elevator Height
     private float _currentHeight;
@@ -57,7 +61,9 @@ public class PlayerController : MonoBehaviour
     {
         var gm = GameManager.Instance;
         float y = gm.StartYPos + _currentHeight * gm.FloorSize;
-        m_ElevatorImage.rectTransform.anchoredPosition = new Vector3(0, y, 0);
+        m_ElevatorUI.SetUIPosition(new Vector3(0, y, 0));
+
+        m_ElevatorUI.SetOn(_isDoorsOpen);
     }
 
     public void OnMove(InputAction.CallbackContext value)

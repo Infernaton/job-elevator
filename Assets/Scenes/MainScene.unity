@@ -327,6 +327,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 90fcddfb-6616-4952-814e-a413ce4ac77f
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 502559278}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ToggleDoors
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c9e465a7-7010-44ed-ac35-b1161d5a6733
+    m_ActionName: Player/OpenDoors[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -346,7 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MovementCancelOffset: 0.1
   m_MovementReducer: 0.02
-  m_ElevatorImage: {fileID: 1817108841}
+  m_ElevatorUI: {fileID: 1817108843}
 --- !u!1 &609973702
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +1012,7 @@ GameObject:
   - component: {fileID: 1817108840}
   - component: {fileID: 1817108842}
   - component: {fileID: 1817108841}
+  - component: {fileID: 1817108843}
   m_Layer: 5
   m_Name: ElevatorUI
   m_TagString: Untagged
@@ -1060,6 +1077,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817108839}
   m_CullTransparentMesh: 1
+--- !u!114 &1817108843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817108839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7888e41b206b114983cb76340133f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ButtonOff: {fileID: 21300000, guid: 8bb7f025e147e7a4cbdcb53130697d0a, type: 3}
+  m_ButtonOn: {fileID: 21300000, guid: 3857c944b627d2a4089613866faaf1ee, type: 3}
+  m_ChildImage: {fileID: 0}
 --- !u!1 &1986665589
 GameObject:
   m_ObjectHideFlags: 0
