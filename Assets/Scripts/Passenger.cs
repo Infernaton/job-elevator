@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Passenger : MonoBehaviour
 {
     private bool _isInElevator;
+    public bool IsInElevator() => _isInElevator;
 
     private Floor _start;
     private Floor _goal;

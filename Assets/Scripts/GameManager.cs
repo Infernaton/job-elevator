@@ -24,7 +24,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] float m_GenPassengerCooldownInit;
     private float _currentGenPassengerCooldown;
     private float _lastTimeGenPassenger;
+
+    [SerializeField] int m_MaxPickupPassengers;
     #endregion
+
+    private int _score;
 
     public static GameManager Instance = null;
     private void Awake()
@@ -57,23 +61,25 @@ public class GameManager : MonoBehaviour
         FloorDetection();
 
         // Don't need to loop throught all arrays, we are in a FixedUpdate, the loop is already here
-
         // If the door is Open
         if (PlayerController.Instance.GetDoorState())
         {
             // check for all passengers who are _isInElevator == true if the current floor is equal to Passenger._end
-            var passenger = _passengerList.Find((item) => item.IsArrivedToDestination(GetCurrentFloorData()));
-            if (passenger != null)
+            var passengersInElevator = _passengerList.FindAll((item) => item.IsInElevator());
+            var passengers = passengersInElevator.FindAll((item) => item.IsArrivedToDestination(GetCurrentFloorData()));
+            if (passengers.Count > 0)
             {
+                var passenger = passengers[0];
                 // If so, remove the passengers from the array 
                 _passengerList.Remove(passenger);
                 Destroy(passenger.gameObject);
+                _score++;
                 Debug.Log("A passenger as arrived to destination");
             }
 
             // Get Current Pointer based on Current Floor
             FloorPointer pointer = GetCurrentPointer();
-            if (pointer.ArePassengersWaiting())
+            if (passengersInElevator.Count < m_MaxPickupPassengers && pointer.ArePassengersWaiting())
             {
                 // If there's a passenger
                 var waitingPassenger = pointer.GetFirstPassengerWaiting();
@@ -91,6 +97,18 @@ public class GameManager : MonoBehaviour
             GeneratePassenger();
             _lastTimeGenPassenger = Time.time;
         }
+    }
+
+    private void Update()
+    {
+        var ui = UIManager.Instance;
+
+        var passengers = _passengerList.FindAll((item) => item.IsInElevator());
+        ui.UpdatePassengersCapacityUI(passengers.Count, m_MaxPickupPassengers);
+
+        ui.UpdateTimeUI(Time.time);
+
+        ui.UpdateScoreUI(_score);
     }
 
     private void FloorDetection()
