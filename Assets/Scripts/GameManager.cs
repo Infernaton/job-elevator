@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<float, Floor> _compileFloor = new();
     private Floor _currentFloor;
     public Floor GetCurrentFloorData() => _currentFloor;
+    public FloorPointer GetCurrentPointer() => UIManager.Instance.GetPointer(Mathf.Abs(_currentFloor.FloorNumber));
     #endregion
 
     #region Passengers
@@ -55,6 +56,35 @@ public class GameManager : MonoBehaviour
     {
         FloorDetection();
 
+        // Don't need to loop throught all arrays, we are in a FixedUpdate, the loop is already here
+
+        // If the door is Open
+        if (PlayerController.Instance.GetDoorState())
+        {
+            // check for all passengers who are _isInElevator == true if the current floor is equal to Passenger._end
+            var passenger = _passengerList.Find((item) => item.IsArrivedToDestination(GetCurrentFloorData()));
+            if (passenger != null)
+            {
+                // If so, remove the passengers from the array 
+                _passengerList.Remove(passenger);
+                Destroy(passenger.gameObject);
+                Debug.Log("A passenger as arrived to destination");
+            }
+
+            // Get Current Pointer based on Current Floor
+            FloorPointer pointer = GetCurrentPointer();
+            if (pointer.ArePassengersWaiting())
+            {
+                // If there's a passenger
+                var waitingPassenger = pointer.GetFirstPassengerWaiting();
+                //remove it from the floor array
+                pointer.RemovePassenger(waitingPassenger);
+                //set the _isInElevator bool to true
+                waitingPassenger.SetInElevator();
+                // => Simulate that the passenger is in the elvator
+            }
+        }
+
         //Generate new passengers over time
         if (Time.time - _lastTimeGenPassenger >= _currentGenPassengerCooldown)
         {
@@ -71,7 +101,7 @@ public class GameManager : MonoBehaviour
             {
                 _currentFloor = floor;
 
-                Debug.Log("Arrives to " + floor.Name);
+                //Debug.Log("Arrives to " + floor.Name);
                 UIManager.Instance.SelectPointer(Mathf.Abs(floor.FloorNumber));
             }
         }

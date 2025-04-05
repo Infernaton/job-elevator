@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] ButtonContainer m_ButtonContainer;
     [SerializeField] ButtonContainer m_PointerContainer;
 
+    public ElevatorButtonDisplay GetElevatorButton(int id) => m_ButtonContainer.GetButton(id);
+    public FloorPointer GetPointer(int id) => m_PointerContainer.GetButton(id).GetComponent<FloorPointer>();
+
     public static UIManager Instance = null;
 
     private void Awake()
@@ -32,10 +35,5 @@ public class UIManager : MonoBehaviour
     public void SelectPointer(int id)
     {
         m_PointerContainer.SelectOneButton(id);
-    }
-
-    public FloorPointer GetPointer(int id)
-    {
-        return m_PointerContainer.GetButton(id).GetComponent<FloorPointer>();
     }
 }

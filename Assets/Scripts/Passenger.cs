@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Passenger : MonoBehaviour
@@ -23,9 +24,14 @@ public class Passenger : MonoBehaviour
         SetToStartPoint();
     }
 
-    private Floor GetRandomFloor()
+    private Floor GetRandomFloor(Floor except = null)
     {
-        return GameManager.Instance.AllFloors[UnityEngine.Random.Range(0, GameManager.Instance.AllFloors.Count)];
+        List<Floor> f = GameManager.Instance.AllFloors;
+        if (except != null)
+        {
+            f = f.Where((f) => f.Equals(except)).ToList();
+        }
+        return f[UnityEngine.Random.Range(0, f.Count)];
     }
 
     private void SetToStartPoint()
@@ -34,9 +40,25 @@ public class Passenger : MonoBehaviour
         pointer.SetNewPassenger(this);
     }
 
+    public void SetInElevator() => _isInElevator = true;
+
+    public bool IsArrivedToDestination(Floor currentFloor)
+    {
+        return _isInElevator && currentFloor.FloorNumber == _goal.FloorNumber;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        //m_PatienceTime -= Time.fixedDeltaTime;
+        if (_isInElevator)
+        {
+            transform.position = PlayerController.Instance.GetElevatorPos();
+            UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).SetOn(true);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).SetOn(false);
     }
 }

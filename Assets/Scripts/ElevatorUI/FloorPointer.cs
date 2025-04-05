@@ -8,6 +8,8 @@ public class FloorPointer : MonoBehaviour
     [SerializeField] float m_OffsetPosition;
 
     private List<Passenger> _passengersAtFloor = new();
+    public bool ArePassengersWaiting() => _passengersAtFloor.Count > 0;
+    public Passenger GetFirstPassengerWaiting() => _passengersAtFloor[0];
 
     public void SetNewPassenger(Passenger newPassenger)
     {

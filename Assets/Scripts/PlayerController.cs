@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float m_MovementReducer;
 
     [SerializeField] ElevatorButtonDisplay m_ElevatorUI;
+    public Vector3 GetElevatorPos() => m_ElevatorUI.transform.position;
     private float _movement;
     private float _lastMovement;
 
