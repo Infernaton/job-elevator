@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Passenger : MonoBehaviour
 {
@@ -11,15 +12,21 @@ public class Passenger : MonoBehaviour
     private Floor _start;
     private Floor _goal;
 
-    public float m_PatienceTime;
+    [SerializeField] float m_PatienceTime;
     [SerializeField] float m_PatienceDiminution;
+
+    [SerializeField] Image m_Sprite;
+    [SerializeField] Color m_UpColor;
+    [SerializeField] Color m_DownColor;
 
     // Start is called before the first frame update
     void Start()
     {
         _start = GetRandomFloor();
-        _goal = GetRandomFloor();
+        _goal = GetRandomFloor(_start);
         _isInElevator = false;
+
+        m_Sprite.color = _start.FloorNumber > _goal.FloorNumber ? m_DownColor : m_UpColor;
 
         SetToStartPoint();
     }
@@ -29,7 +36,7 @@ public class Passenger : MonoBehaviour
         List<Floor> f = GameManager.Instance.AllFloors;
         if (except != null)
         {
-            f = f.Where((f) => f.Equals(except)).ToList();
+            f = f.Where((f) => !f.Equals(except)).ToList();
         }
         return f[UnityEngine.Random.Range(0, f.Count)];
     }

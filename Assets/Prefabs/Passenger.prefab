@@ -149,6 +149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PatienceTime: 50
   m_PatienceDiminution: 1
+  m_Sprite: {fileID: 5037258456738277763}
+  m_UpColor: {r: 1, g: 0.41291898, b: 0, a: 1}
+  m_DownColor: {r: 0, g: 0.44939613, b: 1, a: 1}
 --- !u!1 &3030863709569939443
 GameObject:
   m_ObjectHideFlags: 0
