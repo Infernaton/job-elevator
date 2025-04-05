@@ -70,6 +70,14 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext value)
     {
         _movement = value.ReadValue<Vector2>().y;
+        // _movement is between -1 and 1 but the Slider in UI
+        // can have value between -2 and 2
+        UIManager.Instance.UpdateLeverPos(_movement * 2);
+    }
+
+    public void SliderOnMove(float value)
+    {
+        _movement = value/2;
     }
 
     public void ToggleDoors()
