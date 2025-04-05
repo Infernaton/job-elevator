@@ -6,6 +6,7 @@ public class ButtonContainer : MonoBehaviour
 {
     [SerializeField] ElevatorButtonDisplay m_ButtonPrefab;
     [SerializeField] float m_FloorSizeReducer = 0;
+    [SerializeField] float m_FloorStartOffset = 0;
 
     private List<ElevatorButtonDisplay> _buttonsList = new();
 
@@ -15,7 +16,7 @@ public class ButtonContainer : MonoBehaviour
         for (int i = 0; i < gm.AllFloors.Count; i++)
         {
             var b = Instantiate(m_ButtonPrefab, transform); // m_ButtonsList[i];
-            float y = gm.StartYPos - i * (gm.FloorSize - m_FloorSizeReducer);
+            float y = (gm.StartYPos + m_FloorStartOffset) - i * (gm.FloorSize - m_FloorSizeReducer);
             b.Image.rectTransform.anchoredPosition = new Vector3(0, y, 0);
             b.SetSpriteNumber(gm.AllFloors[i].ButtonSprite);
             _buttonsList.Add(b);
