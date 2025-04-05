@@ -183,9 +183,9 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 502559278}
-        m_TargetAssemblyTypeName: UnityEngine.MonoBehaviour, UnityEngine
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -253,7 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1aa65e932e2fb94892d51ec9242acbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movement: 0
+  m_MovementCancelOffset: 0.1
+  m_MovementReducer: 0.02
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +620,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209421270bb77a4ab4e77097d6454bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InitFloors:
+  - {fileID: 11400000, guid: 6615321831d182c4fa5325ccd362e7cd, type: 2}
+  - {fileID: 11400000, guid: eac180e46f390a54bab5319caca8a0c1, type: 2}
+  m_FloorArrivesOffset: 0
 --- !u!114 &1089368963
 MonoBehaviour:
   m_ObjectHideFlags: 0

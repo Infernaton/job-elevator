@@ -19,6 +19,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        CurrentFloor.text = GameManager.Instance.CurrentFloor.ToString();
+        CurrentFloor.text = GameManager.Instance.GetCurrentHeight().ToString();
     }
 }

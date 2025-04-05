@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float _movement;
+    [SerializeField] float m_MovementCancelOffset;
+    [SerializeField] float m_MovementReducer;
+    private float _movement;
 
     // Start is called before the first frame update
     void Start()
@@ -14,13 +17,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (Math.Abs(_movement) > m_MovementCancelOffset)
+        {
+            GameManager.Instance.AddHeight(_movement * m_MovementReducer);
+        }
     }
 
-    public void OnMove(InputValue value)
+    public void OnMove(InputAction.CallbackContext value)
     {
-        _movement = value.Get<Vector2>().y;
+        _movement = value.ReadValue<Vector2>().y;
     }
 }
