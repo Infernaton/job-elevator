@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public List<Floor> AllFloors;
 
+    public float StartYPos;
+    public float FloorSize;
+
     private Dictionary<float, Floor> _compileFloor = new();
     private Floor _currentFloor;
     public Floor GetCurrentFloorData() => _currentFloor;
@@ -47,7 +50,10 @@ public class GameManager : MonoBehaviour
             if (_currentFloor == null || !_currentFloor.Equals(floor))
             {
                 _currentFloor = floor;
+
                 Debug.Log("Arrives to " + floor.Name);
+                int index = (int)Mathf.Abs(floor.FloorNumber);
+                UIManager.Instance.SelectPointer(index);
             }
         } else
         {

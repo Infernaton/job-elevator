@@ -9,14 +9,14 @@ public class ElevatorButtonDisplay : MonoBehaviour
     [SerializeField] Sprite m_ButtonOn;
     [SerializeField] Image m_ChildImage;
 
-    private Image _image;
+    public Image Image;
 
     private bool _isOn;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        _image = GetComponent<Image>();
+        Image = GetComponent<Image>();
     }
 
     public void SetSpriteNumber(Sprite _nb)
@@ -24,14 +24,14 @@ public class ElevatorButtonDisplay : MonoBehaviour
         m_ChildImage.sprite = _nb;
     }
 
-    public void ToggleOn()
+    public void SetOn(bool isOn)
     {
-        _isOn = !_isOn;
+        _isOn = isOn;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _image.sprite = _isOn ? m_ButtonOn : m_ButtonOff;
+        Image.sprite = _isOn ? m_ButtonOn : m_ButtonOff;
     }
 }

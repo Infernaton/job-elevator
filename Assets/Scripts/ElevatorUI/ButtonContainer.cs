@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class ButtonContainer : MonoBehaviour
 {
-    [SerializeField] List<ElevatorButtonDisplay> m_ButtonsList;
+    [SerializeField] ElevatorButtonDisplay m_ButtonPrefab;
+    [SerializeField] float m_FloorSizeReducer = 0;
 
-    [ContextMenu("InitNumber")]
-    void InitSpriteNumber()
+    private List<ElevatorButtonDisplay> _buttonsList = new();
+
+    public void InitSpriteNumber()
     {
-        for (int i = 0; i < m_ButtonsList.Count; i++)
+        var gm = GameManager.Instance;
+        for (int i = 0; i < gm.AllFloors.Count; i++)
         {
-            var b = m_ButtonsList[i];
-            b.SetSpriteNumber(GameManager.Instance.AllFloors[i].ButtonSprite);
+            var b = Instantiate(m_ButtonPrefab, transform); // m_ButtonsList[i];
+            float y = gm.StartYPos - i * (gm.FloorSize - m_FloorSizeReducer);
+            b.Image.rectTransform.anchoredPosition = new Vector3(0, y, 0);
+            b.SetSpriteNumber(gm.AllFloors[i].ButtonSprite);
+            _buttonsList.Add(b);
         }
+    }
+
+    public void SetOnButton(int index, bool isOn)
+    {
+        _buttonsList[index].SetOn(isOn);
+    }
+
+    public void SelectOneButton(int index)
+    {
+        for (int i = 0; i < _buttonsList.Count; i++)
+        {
+            _buttonsList[i].SetOn(false);
+        }
+        _buttonsList[index].SetOn(true);
     }
 }

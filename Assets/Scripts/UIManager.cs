@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    //[SerializeField] TMP_Text m_CurrentFloor;
+    [SerializeField] TMP_Text m_CurrentFloor;
 
     [SerializeField] ButtonContainer m_ButtonContainer;
+    [SerializeField] ButtonContainer m_PointerContainer;
 
     public static UIManager Instance = null;
 
@@ -19,8 +20,19 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        m_ButtonContainer.InitSpriteNumber();
+        m_PointerContainer.InitSpriteNumber();
+    }
+
     private void Update()
     {
-        //m_CurrentFloor.text = PlayerController.Instance.GetCurrentHeight().ToString();
+        m_CurrentFloor.text = PlayerController.Instance.GetCurrentHeight().ToString();
+    }
+
+    public void SelectPointer(int id)
+    {
+        m_PointerContainer.SelectOneButton(id);
     }
 }
