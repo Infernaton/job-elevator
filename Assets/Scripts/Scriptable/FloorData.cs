@@ -4,5 +4,6 @@ using UnityEngine;
 public class Floor : ScriptableObject
 {
     public float FloorNumber;
+    public Sprite ButtonSprite;
     public string Name;
 }

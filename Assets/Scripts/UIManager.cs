@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text CurrentFloor;
+    //[SerializeField] TMP_Text m_CurrentFloor;
+
+    [SerializeField] ButtonContainer m_ButtonContainer;
 
     public static UIManager Instance = null;
 
@@ -19,6 +21,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        CurrentFloor.text = GameManager.Instance.GetCurrentHeight().ToString();
+        //m_CurrentFloor.text = PlayerController.Instance.GetCurrentHeight().ToString();
     }
 }

@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] List<Floor> m_InitFloors;
-    [SerializeField] float m_FloorArrivesOffset;
+    public List<Floor> AllFloors;
 
     private Dictionary<float, Floor> _compileFloor = new();
     private Floor _currentFloor;
     public Floor GetCurrentFloorData() => _currentFloor;
 
-    private float _currentHeight;
-    public float GetCurrentHeight() => Mathf.Round(_currentHeight);
-    public void AddHeight(float add){ _currentHeight += add; }
-
+    #region Passengers
+    private List<Passenger> _passengerList;
+    #endregion
 
     public static GameManager Instance = null;
-
     private void Awake()
     {
         if (Instance == null) // If there is no instance already
@@ -26,7 +23,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
+    #region Start
     void Start()
     {
         CompileFloorData();
@@ -34,16 +31,18 @@ public class GameManager : MonoBehaviour
 
     private void CompileFloorData()
     {
-        foreach (Floor floor in m_InitFloors)
+        foreach (Floor floor in AllFloors)
         {
             _compileFloor.Add(floor.FloorNumber, floor);
         }
     }
+    #endregion
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (_compileFloor.TryGetValue(GetCurrentHeight(), out var floor))
+        #region Floor Detection
+        if (_compileFloor.TryGetValue(PlayerController.Instance.GetCurrentHeight(), out var floor))
         {
             if (_currentFloor == null || !_currentFloor.Equals(floor))
             {
@@ -54,5 +53,10 @@ public class GameManager : MonoBehaviour
         {
             _currentFloor = null;
         }
+        #endregion
+
+        #region Generate Passangers
+
+        #endregion
     }
 }
