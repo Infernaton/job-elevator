@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Elevator Height
+    [Header("Height Handler")]
+    [SerializeField] private float m_MinHeight;
+    [SerializeField] private float m_MaxHeight;
     private float _currentHeight;
     public float GetCurrentHeight()
     {
@@ -29,7 +32,11 @@ public class PlayerController : MonoBehaviour
             return Mathf.Ceil(_currentHeight + GetHeightOffset());
         return Mathf.Floor(_currentHeight - GetHeightOffset());
     }
-    public void AddHeight(float add) { _currentHeight += add; }
+    public void AddHeight(float add) { 
+        _currentHeight += add; 
+
+        _currentHeight = Mathf.Max(m_MinHeight, Mathf.Min(_currentHeight, m_MaxHeight));
+    }
     #endregion
 
     public static PlayerController Instance = null;
