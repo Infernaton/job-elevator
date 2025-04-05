@@ -23,9 +23,9 @@ public class ButtonContainer : MonoBehaviour
         }
     }
 
-    public void SetOnButton(int index, bool isOn)
+    public ElevatorButtonDisplay GetButton(int id)
     {
-        _buttonsList[index].SetOn(isOn);
+        return _buttonsList[id];
     }
 
     public void SelectOneButton(int index)

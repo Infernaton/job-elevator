@@ -19,11 +19,19 @@ public class Passenger : MonoBehaviour
         _start = GetRandomFloor();
         _goal = GetRandomFloor();
         _isInElevator = false;
+
+        SetToStartPoint();
     }
 
     private Floor GetRandomFloor()
     {
         return GameManager.Instance.AllFloors[UnityEngine.Random.Range(0, GameManager.Instance.AllFloors.Count)];
+    }
+
+    private void SetToStartPoint()
+    {
+        var pointer = UIManager.Instance.GetPointer(Mathf.Abs(_start.FloorNumber));
+        pointer.SetNewPassenger(this);
     }
 
     // Update is called once per frame

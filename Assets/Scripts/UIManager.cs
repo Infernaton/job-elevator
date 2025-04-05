@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text m_CurrentFloor;
-
     [SerializeField] ButtonContainer m_ButtonContainer;
     [SerializeField] ButtonContainer m_PointerContainer;
 
@@ -28,11 +26,16 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        m_CurrentFloor.text = PlayerController.Instance.GetCurrentHeight().ToString();
+
     }
 
     public void SelectPointer(int id)
     {
         m_PointerContainer.SelectOneButton(id);
+    }
+
+    public FloorPointer GetPointer(int id)
+    {
+        return m_PointerContainer.GetButton(id).GetComponent<FloorPointer>();
     }
 }

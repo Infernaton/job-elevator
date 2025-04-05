@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region Floor Handler
+    [Header("Floor related")]
     public List<Floor> AllFloors;
-
     public float StartYPos;
     public float FloorSize;
 
     private Dictionary<float, Floor> _compileFloor = new();
     private Floor _currentFloor;
     public Floor GetCurrentFloorData() => _currentFloor;
+    #endregion
 
     #region Passengers
-    private List<Passenger> _passengerList;
+    [Header("Passenger related")]
+    [SerializeField] Passenger m_PassengerPrefab;
+    private List<Passenger> _passengerList = new();
+
+    [SerializeField] float m_GenPassengerCooldownInit;
+    private float _currentGenPassengerCooldown;
+    private float _lastTimeGenPassenger;
     #endregion
 
     public static GameManager Instance = null;
@@ -30,6 +38,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         CompileFloorData();
+        _currentGenPassengerCooldown = m_GenPassengerCooldownInit;
     }
 
     private void CompileFloorData()
@@ -44,7 +53,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        #region Floor Detection
+        FloorDetection();
+
+        //Generate new passengers over time
+        if (Time.time - _lastTimeGenPassenger >= _currentGenPassengerCooldown)
+        {
+            GeneratePassenger();
+            _lastTimeGenPassenger = Time.time;
+        }
+    }
+
+    private void FloorDetection()
+    {
         if (_compileFloor.TryGetValue(PlayerController.Instance.GetCurrentHeight(), out var floor))
         {
             if (_currentFloor == null || !_currentFloor.Equals(floor))
@@ -52,17 +72,18 @@ public class GameManager : MonoBehaviour
                 _currentFloor = floor;
 
                 Debug.Log("Arrives to " + floor.Name);
-                int index = (int)Mathf.Abs(floor.FloorNumber);
-                UIManager.Instance.SelectPointer(index);
+                UIManager.Instance.SelectPointer(Mathf.Abs(floor.FloorNumber));
             }
-        } else
+        }
+        else
         {
             _currentFloor = null;
         }
-        #endregion
+    }
 
-        #region Generate Passangers
-
-        #endregion
+    private void GeneratePassenger()
+    {
+        var passenger = Instantiate(m_PassengerPrefab);
+        _passengerList.Add(passenger);
     }
 }

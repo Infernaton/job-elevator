@@ -75,6 +75,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6820715987589889369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9123960446804350276}
+  m_Layer: 0
+  m_Name: Passenger Start Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9123960446804350276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820715987589889369}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -80, y: -37.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3848970066386181685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7925183178753518791
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +118,7 @@ GameObject:
   - component: {fileID: 4937902186349533347}
   - component: {fileID: 4593521110100572200}
   - component: {fileID: 4622808965559858405}
+  - component: {fileID: 587002997011329379}
   m_Layer: 5
   m_Name: Pointer
   m_TagString: Untagged
@@ -107,6 +139,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1207392028397404870}
+  - {fileID: 9123960446804350276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -167,4 +200,17 @@ MonoBehaviour:
   m_ButtonOff: {fileID: 21300000, guid: fcf424f8709abec4fa7dbe07f9e2a95d, type: 3}
   m_ButtonOn: {fileID: 21300000, guid: f2b5ffa7a6bb81c44baee6c88fa67ac7, type: 3}
   m_ChildImage: {fileID: 8648537087603816796}
-  Image: {fileID: 0}
+--- !u!114 &587002997011329379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925183178753518791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128df6d514555e54f942a3c9f1d12d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PassengerPosition: {fileID: 9123960446804350276}
+  m_OffsetPosition: 0.3
