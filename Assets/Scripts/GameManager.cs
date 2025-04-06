@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
                 pointer.RemovePassenger(waitingPassenger);
                 //set the _isInElevator bool to true
                 waitingPassenger.SetInElevator();
-                // => Simulate that the passenger is in the elvator
+                // => Simulate that the passenger is in the elevator
             }
         }
 

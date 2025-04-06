@@ -1492,6 +1492,40 @@ MonoBehaviour:
   m_TimeText: {fileID: 41008434}
   m_ScoreText: {fileID: 1412270693}
   m_ElevatorRuleText: {fileID: 1918403367}
+  m_DangerColor: {r: 1, g: 0.12156863, b: 0.21960784, a: 1}
+  m_AnimationElevatorMaxCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: -0.013596117
+      outSlope: -0.013596117
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.25139302
+    - serializedVersion: 3
+      time: 0.32536334
+      value: -0.005343534
+      inSlope: 0.004879977
+      outSlope: 0.004879977
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7463074
+      value: 0.5002022
+      inSlope: -0.008500959
+      outSlope: -0.008500959
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.30727258
+      outWeight: 0
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4
 --- !u!1 &1157729158
 GameObject:
   m_ObjectHideFlags: 0
