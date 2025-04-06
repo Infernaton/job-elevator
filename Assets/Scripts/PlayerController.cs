@@ -54,9 +54,9 @@ public class PlayerController : MonoBehaviour
         return gm.StartYPos / gm.FloorSize;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        if (!GameManager.IsInGame()) return;
         if (Math.Abs(_movement) > m_MovementCancelOffset)
         {
             _lastMovement = _movement;
@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.IsInGame()) return;
         var gm = GameManager.Instance;
         float y = gm.StartYPos + _currentHeight * gm.FloorSize;
         m_ElevatorUI.SetUIPosition(new Vector3(0, y, 0));
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext value)
     {
+        if (!GameManager.IsInGame()) return;
         _movement = value.ReadValue<Vector2>().y;
         // _movement is between -1 and 1 but the Slider in UI
         // can have value between -2 and 2

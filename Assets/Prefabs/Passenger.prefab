@@ -148,7 +148,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PatienceTime: 50
-  m_PatienceDiminution: 1
+  m_PatienceTreshold: 15
+  m_PatienceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.15048218
+      inSlope: 0.00072440464
+      outSlope: 0.00072440464
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31044668
+    - serializedVersion: 3
+      time: 0.30286017
+      value: 0.00072485954
+      inSlope: -3.7871695
+      outSlope: -3.7871695
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07601192
+      outWeight: 0.12355263
+    - serializedVersion: 3
+      time: 0.50039387
+      value: 0.20039928
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 0
+    m_PostInfinity: 0
+    m_RotationOrder: 4
   m_Sprite: {fileID: 5037258456738277763}
   m_UpColor: {r: 1, g: 0.41291898, b: 0, a: 1}
   m_DownColor: {r: 0, g: 0.44939613, b: 1, a: 1}

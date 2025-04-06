@@ -1,6 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+public enum GameState
+{
+    Menu,
+    Game,
+    GameOver,
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +38,9 @@ public class GameManager : MonoBehaviour
 
     private int _score;
 
+    public static GameState State;
+    public static bool IsInGame() => State == GameState.Game;
+
     public static GameManager Instance = null;
     private void Awake()
     {
@@ -44,6 +55,8 @@ public class GameManager : MonoBehaviour
     {
         CompileFloorData();
         _currentGenPassengerCooldown = m_GenPassengerCooldownInit;
+        State = GameState.Menu;
+        UIManager.Instance.DisplayMenu(true);
     }
 
     private void CompileFloorData()
@@ -58,6 +71,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!IsInGame()) return;
         FloorDetection();
 
         // Don't need to loop throught all arrays, we are in a FixedUpdate, the loop is already here
@@ -103,12 +117,36 @@ public class GameManager : MonoBehaviour
     {
         var ui = UIManager.Instance;
 
-        var passengers = _passengerList.FindAll((item) => item.IsInElevator());
-        ui.UpdatePassengersCapacityUI(passengers.Count, m_MaxPickupPassengers);
+        switch (State)
+        {
+            case GameState.Menu:
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    State = GameState.Game;
+                    //UIManager.Instance.DisplayTitleScreen(false);
+                    ui.DisplayMenu(false);
+                    //StartGame();
+                }
+                break;
 
-        ui.UpdateTimeUI(Time.time);
+            case GameState.Game:
+                var passengers = _passengerList.FindAll((item) => item.IsInElevator());
+                ui.UpdatePassengersCapacityUI(passengers.Count, m_MaxPickupPassengers);
 
-        ui.UpdateScoreUI(_score);
+                ui.UpdateTimeUI(Time.time);
+
+                ui.UpdateScoreUI(_score);
+                break;
+
+            case GameState.GameOver:
+                break;
+        }
+    }
+
+    public void SetGameOver(string message)
+    {
+        State = GameState.GameOver;
+        UIManager.Instance.DisplayGameOver(true, message);
     }
 
     private void FloorDetection()

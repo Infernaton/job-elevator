@@ -14,7 +14,8 @@ public class Passenger : MonoBehaviour
     private Floor _goal;
 
     [SerializeField] float m_PatienceTime;
-    [SerializeField] float m_PatienceDiminution;
+    [SerializeField] float m_PatienceTreshold;
+    [SerializeField] AnimationCurve m_PatienceCurve;
 
     [SerializeField] Image m_Sprite;
     [SerializeField] Color m_UpColor;
@@ -55,13 +56,31 @@ public class Passenger : MonoBehaviour
         return _isInElevator && currentFloor.FloorNumber == _goal.FloorNumber;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        if (!GameManager.IsInGame()) return;
+
         if (_isInElevator)
         {
             transform.position = PlayerController.Instance.GetElevatorPos();
             UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).SetOn(true);
+            m_Sprite.gameObject.SetActive(false);
+            gameObject.transform.localScale = Vector3.one; // reset animation 
+        } else
+        {
+            m_PatienceTime -= Time.fixedDeltaTime;
+            if (m_PatienceTime <= m_PatienceTreshold)
+            {
+                float multiplier = m_PatienceCurve.Evaluate(Time.time);
+                gameObject.transform.localScale = Vector3.one + Vector3.one * multiplier;
+            }
+            
+            if (m_PatienceTime <= 0)
+            {
+                // GameOver;
+                Debug.Log("Game over");
+                GameManager.Instance.SetGameOver("When will this elevator arrives ??");
+            }
         }
     }
 

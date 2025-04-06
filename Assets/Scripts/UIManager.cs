@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Menu Handler")]
+    [SerializeField] CanvasGroup m_MenuCanvas;
+    [SerializeField] CanvasGroup m_GameOverCanvas;
+    [SerializeField] TMP_Text m_GameOverText;
+
     [Header("Control Panel")]
     [SerializeField] Slider m_ControlPanel;
 
@@ -41,9 +46,20 @@ public class UIManager : MonoBehaviour
         m_PointerContainer.InitSpriteNumber();
     }
 
-    private void Update()
+    public void DisplayMenu(bool isDisplayed)
     {
-
+        if (isDisplayed)
+            StartCoroutine(Animation.FadeIn(0.5f, m_MenuCanvas));
+        else
+            StartCoroutine(Animation.FadeOut(0.3f, m_MenuCanvas));
+    }
+    public void DisplayGameOver(bool isDisplayed, string message)
+    {
+        m_GameOverText.text = message;
+        if (isDisplayed)
+            StartCoroutine(Animation.FadeIn(0.5f, m_GameOverCanvas));
+        else
+            StartCoroutine(Animation.FadeOut(0.3f, m_GameOverCanvas));
     }
 
     public void SelectPointer(int id)
