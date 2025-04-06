@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     private int _score;
+
+    private float _startTime;
+    private float GetCurrentTimer() => Time.time - _startTime;
 
     public static GameState State;
     public static bool IsInGame() => State == GameState.Game;
@@ -106,7 +110,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Generate new passengers over time
-        if (Time.time - _lastTimeGenPassenger >= _currentGenPassengerCooldown)
+        if (GetCurrentTimer() - _lastTimeGenPassenger >= _currentGenPassengerCooldown)
         {
             GeneratePassenger();
             _lastTimeGenPassenger = Time.time;
@@ -120,12 +124,14 @@ public class GameManager : MonoBehaviour
         switch (State)
         {
             case GameState.Menu:
-                if (Mouse.current.leftButton.wasPressedThisFrame)
+                if (Mouse.current.leftButton.wasPressedThisFrame || Input.GetMouseButton(0))
                 {
                     State = GameState.Game;
-                    //UIManager.Instance.DisplayTitleScreen(false);
                     ui.DisplayMenu(false);
-                    //StartGame();
+                    _startTime = Time.time;
+                    // Create tuto passenger
+                    var tutoPassenger = m_PassengerPrefab.Create(_compileFloor[-1f], _compileFloor[-2f]);
+                    _passengerList.Add(tutoPassenger);
                 }
                 break;
 
@@ -133,12 +139,14 @@ public class GameManager : MonoBehaviour
                 var passengers = _passengerList.FindAll((item) => item.IsInElevator());
                 ui.UpdatePassengersCapacityUI(passengers.Count, m_MaxPickupPassengers);
 
-                ui.UpdateTimeUI(Time.time);
+                ui.UpdateTimeUI(GetCurrentTimer());
 
                 ui.UpdateScoreUI(_score);
                 break;
 
             case GameState.GameOver:
+                if (Mouse.current.leftButton.wasPressedThisFrame || Input.GetMouseButton(0))
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
         }
     }

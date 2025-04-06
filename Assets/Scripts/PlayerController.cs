@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private float _lastMovement;
 
     #region Door Handler
-    private bool _isDoorsOpen = true;
+    [SerializeField] private bool _isDoorsOpen;
 
     public bool GetDoorState() => _isDoorsOpen;
     #endregion

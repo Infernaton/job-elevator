@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,11 +22,20 @@ public class Passenger : MonoBehaviour
     [SerializeField] Color m_UpColor;
     [SerializeField] Color m_DownColor;
 
-    // Start is called before the first frame update
+    // Use only with a prefab to initiate
+    public Passenger Create(Floor start, Floor goal)
+    {
+        Passenger passenger = Instantiate(this);
+
+        passenger._start = start;
+        passenger._goal = goal;
+        return passenger;
+    }
+
     void Start()
     {
-        _start = GetRandomFloor();
-        _goal = GetRandomFloor(_start);
+        if (_start == null) _start = GetRandomFloor();
+        if (_goal == null) _goal = GetRandomFloor(_start);
         _isInElevator = false;
 
         m_Sprite.color = _start.FloorNumber > _goal.FloorNumber ? m_DownColor : m_UpColor;
@@ -70,18 +80,24 @@ public class Passenger : MonoBehaviour
         } else
         {
             m_PatienceTime -= Time.fixedDeltaTime;
-            if (m_PatienceTime <= m_PatienceTreshold)
-            {
-                float multiplier = m_PatienceCurve.Evaluate(Time.time);
-                gameObject.transform.localScale = Vector3.one + Vector3.one * multiplier;
-            }
-            
-            if (m_PatienceTime <= 0)
-            {
-                // GameOver;
-                Debug.Log("Game over");
-                GameManager.Instance.SetGameOver("When will this elevator arrives ??");
-            }
+        }
+    }
+
+    private void Update()
+    {
+        if (m_PatienceTime <= m_PatienceTreshold)
+        {
+            float multiplier = m_PatienceCurve.Evaluate(Time.time);
+            gameObject.transform.localScale = Vector3.one + Vector3.one * multiplier;
+        }
+
+        if (!GameManager.IsInGame()) return;
+
+        if (m_PatienceTime <= 0)
+        {
+            // GameOver;
+            Debug.Log("Game over");
+            GameManager.Instance.SetGameOver("When will this elevator arrives ??");
         }
     }
 
