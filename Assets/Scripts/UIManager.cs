@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 public class UIManager : MonoBehaviour
 {
@@ -49,17 +50,17 @@ public class UIManager : MonoBehaviour
     public void DisplayMenu(bool isDisplayed)
     {
         if (isDisplayed)
-            StartCoroutine(Animation.FadeIn(0.5f, m_MenuCanvas));
+            StartCoroutine(Anim.FadeIn(0.5f, m_MenuCanvas));
         else
-            StartCoroutine(Animation.FadeOut(0.3f, m_MenuCanvas));
+            StartCoroutine(Anim.FadeOut(0.3f, m_MenuCanvas));
     }
     public void DisplayGameOver(bool isDisplayed, string message)
     {
         m_GameOverText.text = message;
         if (isDisplayed)
-            StartCoroutine(Animation.FadeIn(0.5f, m_GameOverCanvas));
+            StartCoroutine(Anim.FadeIn(0.5f, m_GameOverCanvas));
         else
-            StartCoroutine(Animation.FadeOut(0.3f, m_GameOverCanvas));
+            StartCoroutine(Anim.FadeOut(0.3f, m_GameOverCanvas));
     }
 
     public void SelectPointer(int id)
@@ -94,7 +95,6 @@ public class UIManager : MonoBehaviour
         {
             multiplier = m_AnimationElevatorMaxCurve.Evaluate(Time.time);
             appliedColor = m_DangerColor;
-            Debug.Log(multiplier);
         }
 
         m_ElevatorRuleText.transform.localScale = Vector3.one + Vector3.one * multiplier;

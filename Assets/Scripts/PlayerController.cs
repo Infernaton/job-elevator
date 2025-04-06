@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,8 +19,23 @@ public class PlayerController : MonoBehaviour
 
     #region Door Handler
     [SerializeField] private bool _isDoorsOpen;
+    public bool IsDoorsOpen
+    {
+        get => _isDoorsOpen;
+        private set
+        {
+            _isDoorsOpen = value;
 
-    public bool GetDoorState() => _isDoorsOpen;
+            if (_isDoorsOpen && !m_DoorsSound.isPlaying)
+            {
+                m_DoorsSound.Play();
+            }
+            else if (!m_DoorsCloseSound.isPlaying)
+            {
+                m_DoorsCloseSound.Play();
+            }
+        }
+    }
     #endregion
 
     #region Elevator Height
@@ -38,6 +55,10 @@ public class PlayerController : MonoBehaviour
         _currentHeight = Mathf.Max(m_MinHeight, Mathf.Min(_currentHeight, m_MaxHeight));
     }
     #endregion
+
+    [Header("Sound")]
+    [SerializeField] private AudioSource m_DoorsSound;
+    [SerializeField] private AudioSource m_DoorsCloseSound;
 
     public static PlayerController Instance = null;
     private void Awake()
@@ -61,7 +82,7 @@ public class PlayerController : MonoBehaviour
         {
             _lastMovement = _movement;
             AddHeight(_movement * m_MovementReducer);
-            if (_isDoorsOpen) _isDoorsOpen = false;
+            if (IsDoorsOpen) IsDoorsOpen = false;
         }
     }
 
@@ -72,12 +93,13 @@ public class PlayerController : MonoBehaviour
         float y = gm.StartYPos + _currentHeight * gm.FloorSize;
         m_ElevatorUI.SetUIPosition(new Vector3(0, y, 0));
 
-        m_ElevatorUI.SetOn(_isDoorsOpen);
+        m_ElevatorUI.SetOn(IsDoorsOpen);
     }
 
     public void OnMove(InputAction.CallbackContext value)
     {
         if (!GameManager.IsInGame()) return;
+
         _movement = value.ReadValue<Vector2>().y;
         // _movement is between -1 and 1 but the Slider in UI
         // can have value between -2 and 2
@@ -89,8 +111,10 @@ public class PlayerController : MonoBehaviour
         _movement = value/2;
     }
 
-    public void ToggleDoors()
+    public void ToggleDoors(InputAction.CallbackContext context)
     {
-        _isDoorsOpen = !_isDoorsOpen;
+        if (context.phase != InputActionPhase.Performed) return;
+
+        IsDoorsOpen = !IsDoorsOpen;
     }
 }

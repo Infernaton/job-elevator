@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] int m_MaxPickupPassengers;
     #endregion
 
+    [SerializeField] AudioSource m_BellRinging;
+
     private int _score;
 
     #region Timer
@@ -82,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         // Don't need to loop throught all arrays, we are in a FixedUpdate, the loop is already here
         // If the door is Open
-        if (PlayerController.Instance.GetDoorState())
+        if (PlayerController.Instance.IsDoorsOpen)
         {
             // check for all passengers who are _isInElevator == true if the current floor is equal to Passenger._end
             var passengersInElevator = _passengerList.FindAll((item) => item.IsInElevator());
@@ -94,7 +96,11 @@ public class GameManager : MonoBehaviour
                 _passengerList.Remove(passenger);
                 Destroy(passenger.gameObject);
                 _score++;
-                Debug.Log("A passenger as arrived to destination");
+                Debug.Log("A passenger has arrived to destination");
+                if (!m_BellRinging.isPlaying)
+                {
+                    m_BellRinging.Play();
+                }
             }
 
             // Get Current Pointer based on Current Floor
@@ -107,7 +113,6 @@ public class GameManager : MonoBehaviour
 
         //Generate new passengers over time
         float t = DifficultyScaler.Instance.CurrentGenPassengerCooldown(GetCurrentTimer());
-        Debug.Log(t);
         if (GetCurrentTimer() - _lastTimeGenPassenger >= t)
         {
             GeneratePassenger();
@@ -157,7 +162,6 @@ public class GameManager : MonoBehaviour
             {
                 _currentFloor = floor;
 
-                //Debug.Log("Arrives to " + floor.Name);
                 UIManager.Instance.SelectPointer(Mathf.Abs(floor.FloorNumber));
             }
         }

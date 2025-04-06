@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 public class Passenger : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Passenger : MonoBehaviour
     [SerializeField] Image m_Sprite;
     [SerializeField] Color m_UpColor;
     [SerializeField] Color m_DownColor;
+
+    [SerializeField] AudioSource m_MvtSwift;
 
     // Use only with a prefab to initiate
     public Passenger Create(Floor start, Floor goal)
@@ -59,7 +62,8 @@ public class Passenger : MonoBehaviour
     {
         var pointer = UIManager.Instance.GetPointer(Mathf.Abs(_start.FloorNumber));
         pointer.SetNewPassenger(this);
-        StartCoroutine(Animation.FadeIn(0.15f, m_Sprite));
+        m_MvtSwift.Play();
+        StartCoroutine(Anim.FadeIn(0.15f, m_Sprite));
     }
 
     public void SetInElevator() => _isInElevator = true;

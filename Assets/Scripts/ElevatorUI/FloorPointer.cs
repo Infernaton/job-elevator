@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class FloorPointer : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class FloorPointer : MonoBehaviour
 
     public IEnumerator MovePassenger(Passenger passenger, Vector3 to)
     {
-        yield return Animation.Slide(passenger.gameObject, to, .2f, m_MovementCurve);
+        yield return Anim.Slide(passenger.gameObject, to, .2f, m_MovementCurve);
     }
 
     public void SetNewPassenger(Passenger newPassenger)
