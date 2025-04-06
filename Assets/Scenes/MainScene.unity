@@ -2267,11 +2267,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_SecondBeforeMaxDifficulty: 60
+  m_SecondBeforeMaxDifficulty: 90
   m_GenPassengerCooldownInit: 5
-  m_GenPassengerCooldownMin: 3
-  m_PassengerPatience: 50
-  m_PassengerPatienceMin: 25
+  m_GenPassengerCooldownMin: 1.5
+  m_PassengerPatience: 40
+  m_PassengerPatienceMin: 20
 --- !u!1 &1128095407
 GameObject:
   m_ObjectHideFlags: 0

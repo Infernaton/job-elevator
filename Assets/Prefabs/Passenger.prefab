@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patienceTime: 0
-  m_PatienceTreshold: 15
+  m_PatienceTreshold: 10
   m_PatienceAnimationCurve:
     serializedVersion: 2
     m_Curve:
