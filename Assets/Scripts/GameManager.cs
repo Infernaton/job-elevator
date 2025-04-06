@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
         if (GetCurrentTimer() - _lastTimeGenPassenger >= t)
         {
             GeneratePassenger();
-            _lastTimeGenPassenger = Time.time;
+            _lastTimeGenPassenger = GetCurrentTimer();
         }
     }
 
