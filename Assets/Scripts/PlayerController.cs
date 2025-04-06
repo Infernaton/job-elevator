@@ -73,11 +73,10 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (!GameManager.IsInGame()) return;
-        if (Math.Abs(_movement) > m_MovementCancelOffset)
+        if (Math.Abs(_movement) > m_MovementCancelOffset && !IsDoorsOpen)
         {
             _lastMovement = _movement;
             AddHeight(_movement * m_MovementReducer);
-            if (IsDoorsOpen) IsDoorsOpen = false;
         }
     }
 
