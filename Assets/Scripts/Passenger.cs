@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +8,11 @@ using Utils;
 public class Passenger : MonoBehaviour
 {
     private bool _isInElevator;
-    public bool IsInElevator() => _isInElevator;
+    public bool IsInElevator
+    {
+        get => _isInElevator;
+        set => _isInElevator = value;
+    }
 
     private Floor _start;
     private Floor _goal;
@@ -63,8 +68,6 @@ public class Passenger : MonoBehaviour
         StartCoroutine(Anim.FadeIn(0.15f, m_Sprite));
     }
 
-    public void SetInElevator() => _isInElevator = true;
-
     public bool IsArrivedToDestination(Floor currentFloor)
     {
         return _isInElevator && currentFloor.FloorNumber == _goal.FloorNumber;
@@ -80,7 +83,7 @@ public class Passenger : MonoBehaviour
             UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).IsOn = true;
             m_Sprite.gameObject.SetActive(false);
             gameObject.transform.localScale = Vector3.one; // reset animation 
-        } else
+        } else if (!_goal.Equals(GameManager.Instance.GetCurrentFloorData()))
         {
             _patienceTime -= Time.fixedDeltaTime;
         }
@@ -102,6 +105,17 @@ public class Passenger : MonoBehaviour
             Debug.Log("Game over");
             GameManager.Instance.SetGameOver("When will this elevator arrives ??");
         }
+    }
+
+    public IEnumerator LeaveElevator()
+    {
+        IsInElevator = false;
+        yield return Anim.FadeIn(0.1f, m_Sprite);
+
+        StartCoroutine(Anim.FadeOut(0.2f, m_Sprite));
+        yield return Anim.Slide(gameObject, transform.position + Vector3.left, 0.2f, AnimationCurve.EaseInOut(0, 0, 1, 1));
+
+        Destroy(gameObject);
     }
 
     private void OnDestroy()

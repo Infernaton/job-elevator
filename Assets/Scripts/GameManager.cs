@@ -87,14 +87,14 @@ public class GameManager : MonoBehaviour
         if (PlayerController.Instance.IsDoorsOpen)
         {
             // check for all passengers who are _isInElevator == true if the current floor is equal to Passenger._end
-            var passengersInElevator = _passengerList.FindAll((item) => item.IsInElevator());
+            var passengersInElevator = _passengerList.FindAll((item) => item.IsInElevator);
             var passengers = passengersInElevator.FindAll((item) => item.IsArrivedToDestination(GetCurrentFloorData()));
             if (passengers.Count > 0)
             {
                 var passenger = passengers[0];
                 // If so, remove the passengers from the array 
                 _passengerList.Remove(passenger);
-                Destroy(passenger.gameObject);
+                StartCoroutine(passenger.LeaveElevator());
                 _score++;
                 Debug.Log("A passenger has arrived to destination");
                 
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Game:
-                var passengers = _passengerList.FindAll((item) => item.IsInElevator());
+                var passengers = _passengerList.FindAll((item) => item.IsInElevator);
                 ui.UpdatePassengersCapacityUI(passengers.Count, m_MaxPickupPassengers);
 
                 ui.UpdateTimeUI(GetCurrentTimer());
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         pointer.RemovePassenger(waitingPassenger);
         yield return pointer.MovePassenger(waitingPassenger, PlayerController.Instance.GetElevatorPos());
         //set the _isInElevator bool to true
-        waitingPassenger.SetInElevator();
+        waitingPassenger.IsInElevator = true;
         // => Simulate that the passenger is in the elevator
     }
 

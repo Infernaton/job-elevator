@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_MovementCancelOffset: 0.1
   m_MovementReducer: 0.02
   m_ElevatorUI: {fileID: 1817108843}
-  _isDoorsOpen: 1
+  _isDoorsOpen: 0
   m_MinHeight: -9
   m_MaxHeight: 0
   m_DoorsSound: {fileID: 143415366}
