@@ -4,6 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Utils;
 
 public enum GameState
 {
@@ -97,10 +98,8 @@ public class GameManager : MonoBehaviour
                 Destroy(passenger.gameObject);
                 _score++;
                 Debug.Log("A passenger has arrived to destination");
-                if (!m_BellRinging.isPlaying)
-                {
-                    m_BellRinging.Play();
-                }
+                
+                SoundModifier.PlayAdjustPitch(m_BellRinging);
             }
 
             // Get Current Pointer based on Current Floor

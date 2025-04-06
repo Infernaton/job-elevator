@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 public class ElevatorButtonDisplay : MonoBehaviour
 {
@@ -9,9 +10,22 @@ public class ElevatorButtonDisplay : MonoBehaviour
     [SerializeField] Sprite m_ButtonOn;
     [SerializeField] Image m_ChildImage;
 
+    [SerializeField] AudioSource m_SetOn;
+
     private Image _image;
 
     private bool _isOn;
+    public bool IsOn
+    {
+        get => _isOn;
+        set
+        {
+            if (value && _isOn != value && m_SetOn != null)
+                SoundModifier.PlayAdjustPitch(m_SetOn);
+
+            _isOn = value;
+        }
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -30,14 +44,9 @@ public class ElevatorButtonDisplay : MonoBehaviour
         m_ChildImage.sprite = _nb;
     }
 
-    public void SetOn(bool isOn)
-    {
-        _isOn = isOn;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        _image.sprite = _isOn ? m_ButtonOn : m_ButtonOff;
+        _image.sprite = IsOn ? m_ButtonOn : m_ButtonOff;
     }
 }

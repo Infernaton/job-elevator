@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour
         float y = gm.StartYPos + _currentHeight * gm.FloorSize;
         m_ElevatorUI.SetUIPosition(new Vector3(0, y, 0));
 
-        m_ElevatorUI.SetOn(IsDoorsOpen);
+        m_ElevatorUI.IsOn = IsDoorsOpen;
     }
 
     public void OnMove(InputAction.CallbackContext value)
@@ -115,6 +116,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase != InputActionPhase.Performed) return;
 
+        ToggleDoors();
+    }
+
+    public void ToggleDoors()
+    {
         IsDoorsOpen = !IsDoorsOpen;
     }
 }

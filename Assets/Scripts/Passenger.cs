@@ -62,7 +62,7 @@ public class Passenger : MonoBehaviour
     {
         var pointer = UIManager.Instance.GetPointer(Mathf.Abs(_start.FloorNumber));
         pointer.SetNewPassenger(this);
-        m_MvtSwift.Play();
+        SoundModifier.PlayAdjustPitch(m_MvtSwift);
         StartCoroutine(Anim.FadeIn(0.15f, m_Sprite));
     }
 
@@ -80,7 +80,7 @@ public class Passenger : MonoBehaviour
         if (_isInElevator)
         {
             transform.position = PlayerController.Instance.GetElevatorPos();
-            UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).SetOn(true);
+            UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).IsOn = true;
             m_Sprite.gameObject.SetActive(false);
             gameObject.transform.localScale = Vector3.one; // reset animation 
         } else
@@ -109,6 +109,6 @@ public class Passenger : MonoBehaviour
 
     private void OnDestroy()
     {
-        UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).SetOn(false);
+        UIManager.Instance.GetElevatorButton(Mathf.Abs(_goal.FloorNumber)).IsOn = false;
     }
 }

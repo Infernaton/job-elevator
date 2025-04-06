@@ -75,4 +75,15 @@ namespace Utils
         }
         #endregion
     }
+
+    public class SoundModifier
+    {
+        public static void PlayAdjustPitch(AudioSource audio)
+        {
+            if (audio.isPlaying) return;
+            float modifier = Mathf.Lerp(-0.1f, 0.1f, UnityEngine.Random.value);
+            audio.pitch += modifier;
+            audio.Play();
+        }
+    }
 }

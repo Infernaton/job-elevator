@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonContainer : MonoBehaviour
@@ -7,6 +8,8 @@ public class ButtonContainer : MonoBehaviour
     [SerializeField] ElevatorButtonDisplay m_ButtonPrefab;
     [SerializeField] float m_FloorSizeReducer = 0;
     [SerializeField] float m_FloorStartOffset = 0;
+
+
 
     private List<ElevatorButtonDisplay> _buttonsList = new();
 
@@ -32,8 +35,8 @@ public class ButtonContainer : MonoBehaviour
     {
         for (int i = 0; i < _buttonsList.Count; i++)
         {
-            _buttonsList[i].SetOn(false);
+            _buttonsList[i].IsOn = false;
         }
-        _buttonsList[index].SetOn(true);
+        _buttonsList[index].IsOn = true;
     }
 }
