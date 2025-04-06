@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -99,13 +100,7 @@ public class GameManager : MonoBehaviour
             FloorPointer pointer = GetCurrentPointer();
             if (passengersInElevator.Count < m_MaxPickupPassengers && pointer.ArePassengersWaiting())
             {
-                // If there's a passenger
-                var waitingPassenger = pointer.GetFirstPassengerWaiting();
-                //remove it from the floor array
-                pointer.RemovePassenger(waitingPassenger);
-                //set the _isInElevator bool to true
-                waitingPassenger.SetInElevator();
-                // => Simulate that the passenger is in the elevator
+                StartCoroutine(SetPassengerIntoElevator(pointer));
             }
         }
 
@@ -151,12 +146,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetGameOver(string message)
-    {
-        State = GameState.GameOver;
-        UIManager.Instance.DisplayGameOver(true, message);
-    }
-
     private void FloorDetection()
     {
         if (_compileFloor.TryGetValue(PlayerController.Instance.GetCurrentHeight(), out var floor))
@@ -175,9 +164,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator SetPassengerIntoElevator(FloorPointer pointer)
+    {
+        // If there's a passenger
+        var waitingPassenger = pointer.GetFirstPassengerWaiting();
+        //remove it from the floor array
+        pointer.RemovePassenger(waitingPassenger);
+        yield return pointer.MovePassenger(waitingPassenger, PlayerController.Instance.GetElevatorPos());
+        //set the _isInElevator bool to true
+        waitingPassenger.SetInElevator();
+        // => Simulate that the passenger is in the elevator
+    }
+
     private void GeneratePassenger()
     {
         var passenger = Instantiate(m_PassengerPrefab);
         _passengerList.Add(passenger);
+    }
+    public void SetGameOver(string message)
+    {
+        State = GameState.GameOver;
+        UIManager.Instance.DisplayGameOver(true, message);
     }
 }
