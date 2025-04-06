@@ -6,14 +6,23 @@ public class FloorPointer : MonoBehaviour
 {
     [SerializeField] Transform m_PassengerPosition;
     [SerializeField] float m_OffsetPosition;
+    [SerializeField] AnimationCurve m_MovementCurve;
 
     private List<Passenger> _passengersAtFloor = new();
     public bool ArePassengersWaiting() => _passengersAtFloor.Count > 0;
     public Passenger GetFirstPassengerWaiting() => _passengersAtFloor[0];
 
+    private void MovePassenger(Passenger passenger, Vector3 to)
+    {
+        StartCoroutine(Animation.Slide(passenger.gameObject, to, .2f, m_MovementCurve));
+    }
+
     public void SetNewPassenger(Passenger newPassenger)
     {
-        newPassenger.transform.position = m_PassengerPosition.position + (_passengersAtFloor.Count * m_OffsetPosition * Vector3.right);
+        Vector3 targetPos = m_PassengerPosition.position + (_passengersAtFloor.Count * m_OffsetPosition * Vector3.right);
+        // Move Set Far away the passenger for the animation
+        newPassenger.transform.position = targetPos + Vector3.right * 5f;
+        MovePassenger(newPassenger, targetPos);
 
         _passengersAtFloor.Add(newPassenger);
     }
@@ -30,8 +39,7 @@ public class FloorPointer : MonoBehaviour
         for (int i = 0; i < _passengersAtFloor.Count; i++)
         {
             var p = _passengersAtFloor[i];
-
-            p.transform.position = m_PassengerPosition.position + (i * m_OffsetPosition * Vector3.right);
+            MovePassenger(p, m_PassengerPosition.position + (i * m_OffsetPosition * Vector3.right));
         }
     }
 }

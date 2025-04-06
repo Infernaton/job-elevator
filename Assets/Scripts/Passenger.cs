@@ -47,6 +47,7 @@ public class Passenger : MonoBehaviour
     {
         var pointer = UIManager.Instance.GetPointer(Mathf.Abs(_start.FloorNumber));
         pointer.SetNewPassenger(this);
+        StartCoroutine(Animation.FadeIn(0.15f, m_Sprite));
     }
 
     public void SetInElevator() => _isInElevator = true;

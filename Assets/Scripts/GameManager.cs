@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         CompileFloorData();
         _currentGenPassengerCooldown = m_GenPassengerCooldownInit;
         State = GameState.Menu;
-        UIManager.Instance.DisplayMenu(true);
+        //UIManager.Instance.DisplayMenu(true);
     }
 
     private void CompileFloorData()
