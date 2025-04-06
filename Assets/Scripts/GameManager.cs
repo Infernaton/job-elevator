@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Passenger m_PassengerPrefab;
     private List<Passenger> _passengerList = new();
 
-    [SerializeField] float m_GenPassengerCooldownInit;
-    private float _currentGenPassengerCooldown;
     private float _lastTimeGenPassenger;
 
     [SerializeField] int m_MaxPickupPassengers;
@@ -40,11 +38,15 @@ public class GameManager : MonoBehaviour
 
     private int _score;
 
+    #region Timer
     private float _startTime;
-    private float GetCurrentTimer() => Time.time - _startTime;
+    public float GetCurrentTimer() => Time.time - _startTime;
+    #endregion
 
+    #region GameState
     public static GameState State;
     public static bool IsInGame() => State == GameState.Game;
+    #endregion
 
     public static GameManager Instance = null;
     private void Awake()
@@ -59,7 +61,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         CompileFloorData();
-        _currentGenPassengerCooldown = m_GenPassengerCooldownInit;
         State = GameState.Menu;
         //UIManager.Instance.DisplayMenu(true);
     }
@@ -105,7 +106,9 @@ public class GameManager : MonoBehaviour
         }
 
         //Generate new passengers over time
-        if (GetCurrentTimer() - _lastTimeGenPassenger >= _currentGenPassengerCooldown)
+        float t = DifficultyScaler.Instance.CurrentGenPassengerCooldown(GetCurrentTimer());
+        Debug.Log(t);
+        if (GetCurrentTimer() - _lastTimeGenPassenger >= t)
         {
             GeneratePassenger();
             _lastTimeGenPassenger = Time.time;

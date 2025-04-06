@@ -14,9 +14,9 @@ public class Passenger : MonoBehaviour
     private Floor _start;
     private Floor _goal;
 
-    [SerializeField] float m_PatienceTime;
+    public float _patienceTime;
     [SerializeField] float m_PatienceTreshold;
-    [SerializeField] AnimationCurve m_PatienceCurve;
+    [SerializeField] AnimationCurve m_PatienceAnimationCurve;
 
     [SerializeField] Image m_Sprite;
     [SerializeField] Color m_UpColor;
@@ -37,6 +37,8 @@ public class Passenger : MonoBehaviour
         if (_start == null) _start = GetRandomFloor();
         if (_goal == null) _goal = GetRandomFloor(_start);
         _isInElevator = false;
+
+        _patienceTime = DifficultyScaler.Instance.CurrentPassengerPatience(GameManager.Instance.GetCurrentTimer());
 
         m_Sprite.color = _start.FloorNumber > _goal.FloorNumber ? m_DownColor : m_UpColor;
 
@@ -79,21 +81,21 @@ public class Passenger : MonoBehaviour
             gameObject.transform.localScale = Vector3.one; // reset animation 
         } else
         {
-            m_PatienceTime -= Time.fixedDeltaTime;
+            _patienceTime -= Time.fixedDeltaTime;
         }
     }
 
     private void Update()
     {
-        if (m_PatienceTime <= m_PatienceTreshold)
+        if (_patienceTime <= m_PatienceTreshold)
         {
-            float multiplier = m_PatienceCurve.Evaluate(Time.time);
+            float multiplier = m_PatienceAnimationCurve.Evaluate(Time.time);
             gameObject.transform.localScale = Vector3.one + Vector3.one * multiplier;
         }
 
         if (!GameManager.IsInGame()) return;
 
-        if (m_PatienceTime <= 0)
+        if (_patienceTime <= 0)
         {
             // GameOver;
             Debug.Log("Game over");

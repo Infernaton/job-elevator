@@ -147,9 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25e38bd7b545de4b836694c25f9550c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PatienceTime: 50
+  _patienceTime: 0
   m_PatienceTreshold: 15
-  m_PatienceCurve:
+  m_PatienceAnimationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
